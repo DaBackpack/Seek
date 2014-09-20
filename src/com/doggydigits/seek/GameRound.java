@@ -66,7 +66,6 @@ public class GameRound extends ActionBarActivity {
 
 		Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 
-		HashSet<Integer> attackingMe = new HashSet<Integer>();
 		intent = getIntent();
 		gameName = intent.getStringExtra("gameName");
 		playerNum = intent.getIntExtra("playerNum", - 1);
@@ -296,7 +295,8 @@ public class GameRound extends ActionBarActivity {
                                                 ParseObject newP = new ParseObject(gameName);
                                                 players[stuff[0]].setStatus(p.getString(stuff[0] + "::status"));
 
-                                                if(getDist(players[stuff[0]]) < BLAST_RADIUS)
+                                                // Added that you can't be damaged by own team.
+                                                if(getDist(players[stuff[0]]) < BLAST_RADIUS && (teamNum != players[stuff[0]].team))
                                                     damageCalculation(players[stuff[0]], dist, gameTime + countdown);
                                             }
                                         }).start();
