@@ -1,5 +1,9 @@
 package com.doggydigits.seek;
 
+
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +36,7 @@ public class ParanormalActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
 	}
 
 	@Override
@@ -87,11 +92,22 @@ public class ParanormalActivity extends ActionBarActivity {
 					   //check host status
 					   boolean join = ((ToggleButton) getView().findViewById(R.id.join)).isChecked();
 					   boolean host = ((ToggleButton) getView().findViewById(R.id.host)).isChecked();
+
+					   Parse.initialize(getActivity(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
+						ParseObject p = new ParseObject(info[1]);
+						p.saveInBackground();
+						p.getString("key");
+						
 					   if(join && !host) {
 						   info[3] = "join";
+						   int currentCount = (int) p.get("playerCount") + 1;
+						   p.put(currentCount+"::name", info[0]);
+						   p.put("playerCount", currentCount);
 					   }
 					   else if(host && !join) {
 						   info[3] = "host";
+						   p.put("0::name", info[0]);
+						   p.put("playerCount", 1);
 					   }
 					   else{
 						   error[0] = true;
@@ -128,6 +144,13 @@ public class ParanormalActivity extends ActionBarActivity {
 					   intent.putExtra("playerName", info[0]);
 					   intent.putExtra("isHost", info[2]);
 					   intent.putExtra("team", info[2]);
+					   
+					   try {
+						   Thread.sleep(10000);
+					   } catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					   startActivity(intent);
 					   
 			       } 
