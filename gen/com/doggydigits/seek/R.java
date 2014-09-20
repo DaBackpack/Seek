@@ -1286,6 +1286,7 @@ containing a value of this type.
         public static final int start=0x7f0a0016;
         public static final int title_activity_game_round=0x7f0a0011;
         public static final int title_activity_gpstest=0x7f0a0010;
+        public static final int title_activity_paranormal=0x7f0a001b;
     }
     public static final class style {
         /** 

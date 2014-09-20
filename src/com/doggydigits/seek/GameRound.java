@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -30,6 +31,8 @@ public class GameRound extends ActionBarActivity {
 	public String gameName;
 	public int HP, charge, playerNum;
 
+	public TextView HPDisplay;
+	
     public int timeOffset;
     public long startTime;
     public long lastUpdate;
@@ -86,6 +89,9 @@ public class GameRound extends ActionBarActivity {
             players[i] = new Player(i, i % 2, 0, 0, 0, 0);
         }
 
+        HPDisplay = (TextView)findViewById(R.id.hp_view);
+        updateHPDisplay();
+        
 		if (playerNum == 0)
         {
             /*
@@ -184,6 +190,11 @@ public class GameRound extends ActionBarActivity {
 	public void displayTimer()
     {
 		//TODO: display timer animation
+	}
+	
+	public void updateHPDisplay()
+	{
+		HPDisplay.setText("" + HP);
 	}
 	
 	public void beginGame(){
@@ -389,6 +400,8 @@ public class GameRound extends ActionBarActivity {
         HP = Math.max(HP - damage, 0);
 
         lastStunTime = gameTime;
+        
+        updateHPDisplay();
 	}
 
     public String serializeStatus()

@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/charger_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp" />
+        android:layout_marginTop="52dp"
+        android:text="&quot;jiggolo&quot;" />
 
     <Button
         android:id="@+id/charger_button"

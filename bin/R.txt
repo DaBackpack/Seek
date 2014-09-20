@@ -384,6 +384,7 @@ int string spaghetti 0x7f0a001a
 int string start 0x7f0a0016
 int string title_activity_game_round 0x7f0a0011
 int string title_activity_gpstest 0x7f0a0010
+int string title_activity_paranormal 0x7f0a001b
 int style AppBaseTheme 0x7f0b008b
 int style AppTheme 0x7f0b008c
 int style TextAppearance_AppCompat_Base_CompactMenu_Dialog 0x7f0b0063
