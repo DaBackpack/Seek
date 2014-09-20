@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -10,16 +10,17 @@
         android:id="@+id/hp_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:align_centerHorizontal="true"
-        android:text="" />
+        android:layout_below="@+id/charger_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp" />
 
     <Button
-        android:id="@id/charge_button"
-        android:layout_height="wrap_content"
+        android:id="@+id/charger_button"
         android:layout_width="wrap_content"
-        android:below="hp_view"
-        android:align_centerHorizontal="true"
-        android:text="@string/Drop Bombs. Mom's Spaghetti"
-        android:onClick="chargeButtonPressed" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="chargeButtonPressed"
+        android:text="@string/spaghetti" />
 
-</FrameLayout>
+</RelativeLayout>

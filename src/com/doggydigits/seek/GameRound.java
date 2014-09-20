@@ -11,59 +11,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-public class Player
-{
-    public int pnum;
-    public int team;
-    public int charge;
-    public int HP;
-    public double lat;
-    public double lon;
-    public double alt;
 
-    public Player(int player, int teamnum, int c, double la, double lo, double al)
-    {
-        pnum = player;
-        team = teamnum;
-        charge = c;
-        lat = la;
-        lon = lo;
-        alt = al;
-
-        HP = 0;
-    }
-
-    public setStatus(int c, int h, Location loc)
-    {
-        charge = c;
-        hp = h;
-        lat = loc.getLatitude();
-        lon = loc.getLongitude();
-        alt = loc.getAltitude();
-    }
-
-    // Turn a string into a usable object
-    public setStatus(String serializedBlast)
-    {
-        String[] res = serializedBlast.split(";;");
-        charge = Double.parseInt(res[0]);
-        lat = Double.parseDouble(res[1]);
-        lon = Double.parseDouble(res[2]);
-        alt = Double.parseDouble(res[3]);
-    }
-
-    // Serialize object
-    public String serializeStatus()
-    {
-        String toRet = String.valueOf(charge) + ";;" + hp + ";;" + lat + ";;" + lon + ";;" + alt;
-
-        return toRet;
-    }
-}
 
 /* Previous Activity MUST SEND PLAYER NUM AND GAME NAME AS "playerNum" and "gameName"
  * 
@@ -110,7 +63,7 @@ public class GameRound extends ActionBarActivity {
 
 		Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 
-		attackingMe = new HashSet<Integer>();
+		HashSet<Integer> attackingMe = new HashSet<Integer>();
 		intent = getIntent();
 		gameName = intent.getStringExtra("gameName");
 		playerNum = intent.getIntExtra("playerNum", - 1);
@@ -267,7 +220,7 @@ public class GameRound extends ActionBarActivity {
                         try
                         {
                             Thread.sleep(500);
-                            mHandler.post(new Runnable(){
+                            new Thread(new Runnable(){
 
                                 @Override
                                 public void run()
@@ -295,47 +248,54 @@ public class GameRound extends ActionBarActivity {
                 while (gameTime < 3600) {
                     try {
                         Thread.sleep(500);
-                        mHandler.post(new Runnable() {
+                        new Runnable() {
 
                             @Override
                             public void run()
                             {
 
-                                ParseObject p = new ParseObject(gameName);
+                                final ParseObject p = new ParseObject(gameName);
                                 gameTime = p.getInt("time");
                                 lastUpdate = System.currentTimeMillis();
 
+                                final int[] stuff = new int[1];
+                                
                                 // Get locations and status of each player
-                                for(int i = 0; i < players.length; i++)
-                                    players[i].setStatus(p.getString(i + "::status"));
+                                for(stuff[0] = 0; stuff[0] < players.length; stuff[0]++)
+                                    players[stuff[0]].setStatus(p.getString(stuff[0] + "::status"));
 
                                 // Check for charge detonations
-                                for(int i = 0; i < players.length; i++)
+                                for(stuff[0] = 0; stuff[0] < players.length; stuff[0]++)
                                 {
                                     // If another player is within a reasonable range
                                     // and will be detonating soon, spawn a new thread to handle
                                     // damage detection
-                                    double dist = getDist(players[i]);
-                                    final int countdown = gameTime - players[i].charge;
-                                    if(dist < SAFETY_RADIUS && countdown < 8 && countdown > 0))
+                                    final double dist = getDist(players[stuff[0]]);
+                                    final int countdown = gameTime - players[stuff[0]].charge;
+                                    if(dist < SAFETY_RADIUS && countdown < 8 && countdown > 0)
                                     {
                                         new Thread(new Runnable() {
                                             public void run() {
-                                                Thread.sleep(countdown * 95);
+                                                try {
+													Thread.sleep(countdown * 95);
+												} catch (InterruptedException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
                                                 ParseObject newP = new ParseObject(gameName);
-                                                players[i].setStatus(p.getString(i + "::status"));
+                                                players[stuff[0]].setStatus(p.getString(stuff[0] + "::status"));
 
-                                                if(dist(players[i]) < BLAST_RADIUS)
-                                                    damageCalculation(players[i], dist, gameTime + countdown);
+                                                if(getDist(players[stuff[0]]) < BLAST_RADIUS)
+                                                    damageCalculation(players[stuff[0]], dist, gameTime + countdown);
                                             }
-                                        }
+                                        }).start();
                                     }
                                 }
 
                                 // Set own location
                                 p.put(playerNum + "::", serializeStatus());
                             }
-                        });
+                        };
                     } catch (Exception e) {
                         // TODO: handle exception
                     }
@@ -415,7 +375,7 @@ public class GameRound extends ActionBarActivity {
 
     public double getDist(Player p)
     {
-        Location l = new Location();
+        Location l = new Location(loc);
         l.setLatitude(p.lat);
         l.setLongitude(p.lon);
         l.setAltitude(p.alt);
@@ -425,7 +385,7 @@ public class GameRound extends ActionBarActivity {
 
 	public void damageCalculation(Player p, double dist, int gameTime)
 	{
-        int damage = 80 * (1 - (BLAST_RADIUS - dist) / BLAST_RADIUS);
+        int damage = (int) (80 * (1 - (BLAST_RADIUS - dist) / BLAST_RADIUS));
         HP = Math.max(HP - damage, 0);
 
         lastStunTime = gameTime;
@@ -439,4 +399,54 @@ public class GameRound extends ActionBarActivity {
         return toRet;
     }
 
+}
+
+final class Player
+{
+    public int pnum;
+    public int team;
+    public int charge;
+    public int HP;
+    public double lat;
+    public double lon;
+    public double alt;
+
+    public Player(int player, int teamnum, int c, double la, double lo, double al)
+    {
+        pnum = player;
+        team = teamnum;
+        charge = c;
+        lat = la;
+        lon = lo;
+        alt = al;
+
+        HP = 0;
+    }
+
+    public void setStatus(int c, int h, Location loc)
+    {
+        charge = c;
+        HP = h;
+        lat = loc.getLatitude();
+        lon = loc.getLongitude();
+        alt = loc.getAltitude();
+    }
+
+    // Turn a string into a usable object
+    public void setStatus(String serializedBlast)
+    {
+        String[] res = serializedBlast.split(";;");
+        charge = Integer.parseInt(res[0]);
+        lat = Double.parseDouble(res[1]);
+        lon = Double.parseDouble(res[2]);
+        alt = Double.parseDouble(res[3]);
+    }
+
+    // Serialize object
+    public String serializeStatus()
+    {
+        String toRet = String.valueOf(charge) + ";;" + HP + ";;" + lat + ";;" + lon + ";;" + alt;
+
+        return toRet;
+    }
 }
