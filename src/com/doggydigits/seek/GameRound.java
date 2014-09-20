@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.parse.Parse;
@@ -63,6 +64,9 @@ public class GameRound extends ActionBarActivity {
     {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_round);
+		
+		//Remove title bar
+	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 
