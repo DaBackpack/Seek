@@ -13,7 +13,7 @@
         android:layout_below="@+id/charger_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="52dp"
-        android:text="&quot;jiggolo&quot;" />
+        android:text="HP" />
 
     <Button
         android:id="@+id/charger_button"

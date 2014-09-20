@@ -1,13 +1,12 @@
 package com.doggydigits.seek;
 
-import java.util.HashSet;
-
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,7 +85,7 @@ public class GameRound extends ActionBarActivity {
 		// Otherwise, the player awaits the countdown to begin.
 		ParseObject p = new ParseObject(gameName);
 
-		players = new Player[p.getInt("numPlayers")];
+		players = new Player[p.getInt("playerCount")];
         for (int i = 0 ; i < players.length; i++)
         {
             players[i] = new Player(i, i % 2, 0, 0, 0, 0);
@@ -283,11 +282,20 @@ public class GameRound extends ActionBarActivity {
                                 {
                                     // If another player is within a reasonable range
                                     // and will be detonating soon, spawn a new thread to handle
-                                    // damage detection
+                                    // damage detection, and push notifications.
+                                	
                                     final double dist = getDist(players[stuff[0]]);
                                     final int countdown = gameTime - players[stuff[0]].charge;
-                                    if(dist < SAFETY_RADIUS && countdown < 8 && countdown > 0)
+                                    if(dist < SAFETY_RADIUS && teamNum != players[stuff[0]].team && countdown < 8 && countdown > 0)
                                     {
+                                    	
+                                    	// Get instance of Vibrator from current Context
+                                    	final Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                                    	
+                                    	final boolean[] done = {false};
+                                    	
+                                    
+                                    	
                                         new Thread(new Runnable() {
                                             public void run() {
                                                 try {
@@ -296,7 +304,7 @@ public class GameRound extends ActionBarActivity {
 													// TODO Auto-generated catch block
 													e.printStackTrace();
 												}
-                                                ParseObject newP = new ParseObject(gameName);
+                                                done[0] = true;
                                                 players[stuff[0]].setStatus(p.getString(stuff[0] + "::status"));
 
                                                 // Added that you can't be damaged by own team.
@@ -304,6 +312,22 @@ public class GameRound extends ActionBarActivity {
                                                     damageCalculation(players[stuff[0]], dist, gameTime + countdown);
                                             }
                                         }).start();
+                                        
+                                        new Thread(new Runnable() {
+                                            public void run() {
+                                                // Send push notifications during this period.
+                                            	
+                                            	while (!done[0]){
+                                            		double dist = getDist(players[stuff[0]]);
+                                            		v.vibrate(new long[] {(long) (1000 / dist), (long) (100 * dist)}, 1);
+                                            		try {
+														Thread.sleep(300);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+                                            	}
+                                        }}).start();
                                     }
                                 }
 
