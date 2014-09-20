@@ -1,15 +1,16 @@
 package com.doggydigits.seek;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -22,6 +23,19 @@ public class MainActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		Button b = (Button) findViewById(R.id.button1);
+		b.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), GameRound.class);
+				intent.putExtra("gameName", "poop");
+				intent.putExtra("playerNum", 0);
+				startActivity(intent);
+				
+			}
+		});
 	}
 
 	@Override
