@@ -4,5 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.doggydigits.seek.GameRound"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame">
 
+    <TextView
+        android:id="@+id/hp_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:align_centerHorizontal="true"
+        android:text="" />
+
+    <Button
+        android:id="@id/charge_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:below="hp_view"
+        android:align_centerHorizontal="true"
+        android:text="@string/Drop Bombs. Mom's Spaghetti"
+        android:onClick="chargeButtonPressed" />
+
+</FrameLayout>
