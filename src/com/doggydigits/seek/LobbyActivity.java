@@ -140,7 +140,7 @@ public class LobbyActivity extends ActionBarActivity {
 	        }).start();
 	    }
 	    try {
-			Thread.sleep(startTime - System.currentTimeMillis());
+			Thread.sleep(System.currentTimeMillis() - startTime);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
