@@ -37,7 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/start"
         android:layout_below="@+id/blue"
-        android:text="@string/random" />
+        android:text="@string/random"
+        android:textOn="Random!" />
 
     <ToggleButton
         android:id="@+id/red"
@@ -46,7 +47,8 @@
         android:layout_above="@+id/random"
         android:layout_alignRight="@+id/host"
         android:layout_marginRight="14dp"
-        android:text="@string/red" />
+        android:text="@string/red"
+        android:textOn="Red!" />
 
     <Button
         android:id="@+id/start"
@@ -64,7 +66,8 @@
         android:layout_alignRight="@+id/random"
         android:layout_marginRight="25dp"
         android:layout_marginTop="16dp"
-        android:text="@string/host_a_game" />
+        android:text="@string/host_a_game"
+        android:textOn="Host!" />
 
     <ToggleButton
         android:id="@+id/join"
@@ -72,7 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/host"
         android:layout_toRightOf="@+id/red"
-        android:text="@string/join_a_game" />
+        android:text="@string/join_a_game"
+        android:textOn="Join!" />
 
     <ToggleButton
         android:id="@+id/blue"
@@ -81,6 +85,7 @@
         android:layout_below="@+id/playername"
         android:layout_marginTop="48dp"
         android:layout_toRightOf="@+id/red"
-        android:text="@string/blue" />
+        android:text="@string/blue"
+        android:textOn="Blue!" />
 
 </RelativeLayout>

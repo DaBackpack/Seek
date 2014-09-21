@@ -141,7 +141,7 @@ public class ParanormalActivity extends ActionBarActivity {
 					   Intent intent = new Intent(act, GameRound.class);
 					   intent.putExtra("gameName", info[1]);
 					   intent.putExtra("playerName", info[0]);
-					   intent.putExtra("isHost", info[2]);
+					   intent.putExtra("isHost", info[3]);
 					   intent.putExtra("team", info[2]);
 					   
 					  
@@ -153,20 +153,6 @@ public class ParanormalActivity extends ActionBarActivity {
 			   
 			return rootView;
 		}
-		/*
-		Button button = (Button) getView().findViewById(R.id.startbutton);
-		OnClickListener buttonListener = new View.OnClickListener() {
-		    boolean clicked = false; //not sure if we need this
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				clicked = true;
-				RadioGroup rg = (RadioGroup) getView().findViewById(R.id.teams);
-				String team_name =  ((RadioButton) getView().findViewById(rg.getCheckedRadioButtonId())).getText().toString();
-				//team = team_name;
-			} 
-		};*/
 
 		 
 	}

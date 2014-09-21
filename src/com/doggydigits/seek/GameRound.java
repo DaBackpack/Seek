@@ -1,5 +1,6 @@
 package com.doggydigits.seek;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -7,8 +8,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v7.app.ActionBarActivity;
-import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +22,7 @@ import com.parse.ParseObject;
 /* Previous Activity MUST SEND PLAYER NUM AND GAME NAME AS "playerNum" and "gameName"
  * 
  */
-public class GameRound extends ActionBarActivity {
+public class GameRound extends Activity {
 
 	// gameName is the String the host entered for the game.
 	// HP is remaining hit points. When <= 0, he's out.
@@ -55,9 +54,6 @@ public class GameRound extends ActionBarActivity {
     public static final double BLAST_RADIUS = 20;
     public static final double SAFETY_RADIUS = 30;
 	
-	// This is only stored locally! 
-	// Records playerNums that may deal damage.
-	//public HashSet<Integer> attackingMe;
 	
     public void updateText(){
     		TextView latview = (TextView) findViewById(R.id.lat_view);
@@ -75,16 +71,21 @@ public class GameRound extends ActionBarActivity {
 		setContentView(R.layout.activity_game_round);
 		
 		//Remove title bar
-	   // this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 
 		intent = getIntent();
 		gameName = intent.getStringExtra("gameName");
 		playerNum = intent.getIntExtra("playerNum", - 1);
-		teamNum = intent.getIntExtra("teamNum", -1);
 		
-		if(gameName.length() == 0 || playerNum == -1 || teamNum == -1)
+		//TODO FIX THIS
+		playerNum = intent.getStringExtra("isHost").equals("host") ? 0 : 1;
+		
+		// "red" is 0, "blue" is 1
+		teamNum = intent.getStringExtra("team").equals("red") ? 0 : 1;
+		
+		if(gameName.length() == 0 || playerNum == -1)
 			; //throw exception
 		
 		HP = 100;
@@ -106,17 +107,6 @@ public class GameRound extends ActionBarActivity {
         
 		if (playerNum == 0)
         {
-            /*
-			int[] array = new int[MAX_SIZE];
-			int i = 0;
-			while (i < MAX_SIZE){
-				array[i] = -1;
-				i++;
-			}
-			
-			//p.put("charge", array);
-			//p.saveInBackground();
-			*/
             p.put("started", 0);
 			beginCountdown();
 		}
@@ -356,64 +346,6 @@ public class GameRound extends ActionBarActivity {
 
 	}
 	
-// The LOCAL integer charge represents the current player's charge value.
-// The SERVER'S charge is an array of ALL charges by all players.
-
-    /*
-    public void sendData(int[] blasts)
-    {
-		ParseObject p = new ParseObject(gameName);
-		p.put(playerNum + "HP", HP);
-		p.put(playerNum + "lat", String.valueOf(loc.getLatitude()));
-		p.put(playerNum + "long", String.valueOf(loc.getLongitude()));
-		p.put(playerNum + "alt", String.valueOf(loc.getAltitude()));
-		
-		chargeOld[playerNum] = charge;
-		p.put("charge", chargeOld);
-		p.saveInBackground();
-	}
-    */
-
-    /*
-	public void retrieveData()
-    {
-		
-		ParseObject p = new ParseObject(gameName);
-		int[] chargeOld = (int[]) p.get("charge");
-		
-		// If something fucks up, then there's likely a key missing so we send it anyway
-		try
-        {
-            String locOldLat = (String) p.get(playerNum + "lat");
-            String locOldLong = (String) p.get(playerNum + "long");
-            String locOldAlt = (String) p.get(playerNum + "alt");
-            int HPOld = p.getInt(playerNum + "HP");
-
-            Location locOld = new Location(loc);
-            locOld.setLatitude(Double.valueOf(locOldLat));
-            locOld.setLongitude(Double.valueOf(locOldLong));
-            locOld.setAltitude(Double.valueOf(locOldAlt));
-
-            // If the player's status has been updated, reflect it in the server.
-            // Otherwise, we don't care about updating.
-            if (!loc.equals(locOld) || HPOld != HP || charge != chargeOld[playerNum])
-            {
-                sendData(chargeOld);
-            }
-
-
-        }
-		catch (Exception e)
-        {
-			sendData(chargeOld);
-		}
-		
-		// Now we need to check for all player charges in the charges array and see who's firing.
-		// 
-		
-		
-		
-	}*/
 
     public void chargeButtonPressed(View view)
     {
