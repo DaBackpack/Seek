@@ -18,5 +18,6 @@
     <string name="title_activity_paranormal">Paranormal Activity</string>
     <string name="team_red">Team Red</string>
     <string name="team_blue">Team Blue</string>
+    <string name="lobby_activity">Lobby Activity</string>
 
 </resources>

@@ -128,7 +128,7 @@ public class ParanormalActivity extends ActionBarActivity {
 					   int currentCount = 0;
 					   if(join && !host) {
 						   info[3] = "join";
-						   currentCount = (int) p.get("playerCount") + 1;
+						   currentCount = (int) p.getInt("playerCount") + 1;
 						   p.put(currentCount+"::name", info[0]);
 						   p.put(currentCount+"::team", info[2]);
 						   p.put("playerCount", currentCount);
