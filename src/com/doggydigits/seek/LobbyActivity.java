@@ -33,6 +33,9 @@ public class LobbyActivity extends ActionBarActivity {
 	public boolean started;
 	public long startTime;
 	public String gameName;
+	public String playerName;
+	public String isHost;
+	public String team;
 	
 	public void updatePlayerList(String[] names)
 	{
@@ -66,6 +69,9 @@ public class LobbyActivity extends ActionBarActivity {
 
 		gameName = intent.getStringExtra("gameName");
 		playerNum = intent.getIntExtra("playerNum", -1);
+		playerName = intent.getStringExtra("playerName");
+		isHost = intent.getStringExtra("isHost");
+		team = intent.getStringExtra("team");
 		
 	    playerListView1 = (ListView)findViewById(R.id.player_list_view1);
 	    playerListView2 = (ListView)findViewById(R.id.player_list_view2);
@@ -140,6 +146,12 @@ public class LobbyActivity extends ActionBarActivity {
 		}
 	    
 	    Intent intent2 = new Intent(this, GameRound.class);
+	    intent2.putExtra("gameName", gameName);
+		intent2.putExtra("playerName", playerName);
+		intent2.putExtra("isHost", isHost);
+		intent2.putExtra("playerNum", playerNum);
+		intent2.putExtra("isHost", isHost);
+		intent2.putExtra("team", team);
 	    startActivity(intent2);
 	}
 

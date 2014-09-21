@@ -144,7 +144,7 @@ public class ParanormalActivity extends ActionBarActivity {
 					   }
 
 					   // if (no errors)
-					   Intent intent = new Intent(act, GameRound.class);
+					   Intent intent = new Intent(act, LobbyActivity.class);
 					   intent.putExtra("gameName", info[1]);
 					   intent.putExtra("playerName", info[0]);
 					   intent.putExtra("isHost", info[3]);
