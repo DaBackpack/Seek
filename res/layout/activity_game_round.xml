@@ -6,13 +6,24 @@
     tools:context="com.doggydigits.seek.GameRound"
     tools:ignore="MergeRootFrame">
 
+    <ImageView
+        android:id="@+id/bg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toEndOf="@+id/long_view"
+        android:background="@drawable/bg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+    </ImageView>
+
     <TextView
         android:id="@+id/hp_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="HP" >
+        android:text="HP"
+        android:layout_above="@+id/player_list2"
+        android:layout_centerHorizontal="true">
     </TextView>
 
     <View android:id="@+id/strut"
@@ -26,11 +37,11 @@
         android:scrollbars="vertical"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_below="@+id/hp_view"
-        android:layout_alignRight="@+id/strut"
+        android:layout_above="@+id/charger_button"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/strut"
+        android:layout_toLeftOf="@+id/strut">
     </ListView>
 
     <ListView
@@ -38,11 +49,10 @@
         android:scrollbars="vertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/hp_view"
         android:layout_alignLeft="@+id/strut"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_alignBottom="@+id/player_list1"
+        android:layout_alignTop="@+id/player_list1">
     </ListView>
 
     <ImageView
@@ -61,16 +71,46 @@
         android:layout_above="@id/charge_warning"
         android:layout_centerHorizontal="true"
         android:src="@drawable/button_center"
-        android:background="@drawable/button_rim"
+        android:background="@drawable/button_center"
         android:onClick="chargeButtonPressed" />
 
-    <TextView
-        android:id="@+id/textView1"
+    <ImageView
+        android:id="@+id/charge_outline"
+        android:src="@drawable/button_rim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/charge_warning"
+        android:layout_alignRight="@+id/charger_button"
+        android:layout_alignEnd="@+id/charger_button"
+        android:layout_below="@+id/player_list1"
         android:layout_alignLeft="@+id/charger_button"
-        android:layout_below="@+id/hp_view"
-        android:layout_marginTop="135dp"
-        android:text="TextView" />
+        android:layout_alignStart="@+id/charger_button">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XX:XX"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/lat_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="latitude:"
+        android:layout_above="@+id/player_list1"
+        android:layout_alignLeft="@+id/charger_button"
+        android:layout_alignStart="@+id/charger_button" />
+
+    <TextView
+        android:id="@+id/long_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="longitude:"
+        android:layout_alignTop="@+id/hp_view"
+        android:layout_alignRight="@+id/charger_button"
+        android:layout_alignEnd="@+id/charger_button" />
 
 </RelativeLayout>
