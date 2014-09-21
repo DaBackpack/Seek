@@ -44,7 +44,13 @@ public class GPSTest extends ActionBarActivity {
 		  };
 
 		// Register the listener with the Location Manager to receive location updates
+		  try {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+		  }
+		  catch (Exception e){
+
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+		  }
 		
 	}
 	

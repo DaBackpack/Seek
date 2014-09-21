@@ -139,18 +139,13 @@ public class ParanormalActivity extends ActionBarActivity {
 					   }
 
 					   // if (no errors)
-					   Intent intent = new Intent(act, GameRound.class);
+					   Intent intent = new Intent(act, GPSTest.class);
 					   intent.putExtra("gameName", info[1]);
 					   intent.putExtra("playerName", info[0]);
 					   intent.putExtra("isHost", info[2]);
 					   intent.putExtra("team", info[2]);
 					   
-					   try {
-						   Thread.sleep(10000);
-					   } catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					  
 					   startActivity(intent);
 					   
 			       } 

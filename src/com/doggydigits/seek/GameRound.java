@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,6 +59,23 @@ public class GameRound extends ActionBarActivity {
 	// Records playerNums that may deal damage.
 	//public HashSet<Integer> attackingMe;
 	
+    public void updateText(){
+    	new Thread(new Runnable(){
+    		public void run(){
+    			TextView view = (TextView) findViewById(R.id.textView1);
+    			while (true){
+    				view.setText("" + loc.getLatitude() + "    " + Time.SECOND);
+    				try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    			}
+    		}
+    	}).start();
+    }
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,7 +83,7 @@ public class GameRound extends ActionBarActivity {
 		setContentView(R.layout.activity_game_round);
 		
 		//Remove title bar
-	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	   // this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 
@@ -210,6 +228,7 @@ public class GameRound extends ActionBarActivity {
 		    	loc.setLatitude((1 - accsqrt) * loc.getLatitude() + accsqrt * location.getLatitude());
                 loc.setLongitude((1 - accsqrt) * loc.getLongitude() + accsqrt * location.getLongitude());
                 loc.setAltitude((1 - accsqrt) * loc.getAltitude() + accsqrt * location.getAltitude());
+                updateText();
 		    }
 
 		    public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -232,6 +251,7 @@ public class GameRound extends ActionBarActivity {
                     while (gameTime < 3600) {
                         try
                         {
+                        	
                             Thread.sleep(500);
                             new Thread(new Runnable(){
 
