@@ -149,7 +149,6 @@ public class ParanormalActivity extends ActionBarActivity {
 					   intent.putExtra("playerName", info[0]);
 					   intent.putExtra("isHost", info[3]);
 					   intent.putExtra("playerNum", Integer.toString(currentCount));
-					   intent.putExtra("isHost", info[2]);
 					   intent.putExtra("team", info[2]);
 					   
 					   
