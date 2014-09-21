@@ -6,23 +6,15 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ToggleButton;
-import android.os.Build;
 
 public class LobbyActivity extends ActionBarActivity {
 
@@ -61,12 +53,13 @@ public class LobbyActivity extends ActionBarActivity {
 
 		//Remove title bar
 	    //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    new Thread(new Runnable(){
+	    	public void run(){
+	    		Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
+	    	}
+	    }).start();
 	    
-	    Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
-	    ParseObject p = new ParseObject("gameName");
-		p.saveInBackground();
-		
-		intent = getIntent();
+	    intent = getIntent();
 
 		gameName = intent.getStringExtra("gameName");
 		playerNum = intent.getIntExtra("playerNum", -1);

@@ -11,7 +11,9 @@ import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.Parse;
@@ -48,6 +50,8 @@ public class GameRound extends Activity {
 	// This field constantly is updated with new GPS coordinates.
 	public Location loc;
 	
+	ParseObject p;
+	
 	// TODO: Set max size of one game.
 	
 	public static final int MAX_SIZE = 20;
@@ -75,6 +79,7 @@ public class GameRound extends Activity {
 
 		Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 
+		
 		intent = getIntent();
 		gameName = intent.getStringExtra("gameName");
 		playerNum = intent.getIntExtra("playerNum", - 1);
@@ -94,8 +99,8 @@ public class GameRound extends Activity {
 		// If this player is the host, begin the countdown from his clock.
 		// He also initializes the "charges" array.
 		// Otherwise, the player awaits the countdown to begin.
-		ParseObject p = new ParseObject(gameName);
-
+		
+		p = new ParseObject(gameName);
 		players = new Player[p.getInt("playerCount")];
         for (int i = 0 ; i < players.length; i++)
         {
@@ -107,12 +112,14 @@ public class GameRound extends Activity {
         
 		if (playerNum == 0)
         {
-            p.put("started", 0);
+            p.put("started", 1);
+            p.saveInBackground();
+
 			beginCountdown();
 		}
         else // Players may begin in the countdown.
         {
-            if (p.getInt("started") == 0)
+            if (p.getInt("started") == 1)
                 awaitCountdown();
             else { // Game has already started...
                 //TODO: What do we do with people just entering midway?
@@ -150,7 +157,7 @@ public class GameRound extends Activity {
 	 */
 	public void beginCountdown()
     {
-		ParseObject p = new ParseObject(gameName);
+		
 		int timer = 0;
 		while (timer > 0){
 			p.put("timer", timer);
@@ -170,7 +177,7 @@ public class GameRound extends Activity {
 
 	public void awaitCountdown()
     {
-		ParseObject p = new ParseObject(gameName);
+		
 		int timer = 0;//p.getInt("timer");
 		while (timer > 0){
 			displayTimer();
@@ -201,7 +208,6 @@ public class GameRound extends Activity {
 	
 	public void beginGame(){
 		// Every second, retrieve your GPS location and store it locally.
-		
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
 		LocationListener locationListener = new LocationListener() {
@@ -230,6 +236,22 @@ public class GameRound extends Activity {
 		// Register the listener with the Location Manager to receive location updates twice per second
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 250, 0, locationListener);
 
+		startTime = System.currentTimeMillis();
+		Button b1 = (Button) findViewById(R.id.charger_button);
+		final ImageView v1 = (ImageView) findViewById(R.id.charge_warning);
+		b1.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				v1.setVisibility(ImageView.INVISIBLE);
+				chargeButtonPressed(v);
+				
+				
+			}
+		
+		});
+		
+		gameTime = (int) System.currentTimeMillis();
         // Host loop
         if (playerNum == 0)
         {
@@ -237,29 +259,23 @@ public class GameRound extends Activity {
                 @Override
                 public void run() {
                     // Games are 6 minutes long
-                    while (gameTime < 3600) {
+                    
                         try
                         {
-                        	
-                            Thread.sleep(500);
-                            new Thread(new Runnable(){
+                        while (true) {	
+                        Thread.sleep(500);
+                           
 
-                                @Override
-                                public void run()
-                                {
+                        //TODO: Check out this 500 here
+                        gameTime = (int)((System.currentTimeMillis() - startTime - 500));
 
-                                    gameTime = (int)((System.currentTimeMillis() - startTime - 30000) * 100);
-
-                                    ParseObject p = new ParseObject(gameName);
-                                    p.put("time", gameTime);
-                                }
-                            });
-                        } catch (Exception e) {
-                            // TODO: handle exception
-                        }
-                    }
-                }
-            }).start();
+                        System.out.println(gameTime);           
+                        p.put("time", gameTime);
+                        p.saveInBackground();
+                         
+            }} catch (Exception e) {
+                System.out.println("debug here\n");
+                }}}).start();
         }
 
         // Game loop thread
@@ -267,7 +283,7 @@ public class GameRound extends Activity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                while (gameTime < 3600) {
+                while (true) {
                     try {
                         Thread.sleep(500);
                         new Runnable() {
@@ -276,7 +292,6 @@ public class GameRound extends Activity {
                             public void run()
                             {
 
-                                final ParseObject p = new ParseObject(gameName);
                                 gameTime = p.getInt("time");
                                 lastUpdate = System.currentTimeMillis();
 
@@ -303,7 +318,7 @@ public class GameRound extends Activity {
                                     	
                                     	final boolean[] done = {false};
                                     	
-                                    
+                                    	
                                     	
                                         new Thread(new Runnable() {
                                             public void run() {
@@ -342,8 +357,9 @@ public class GameRound extends Activity {
 
                                 // Set own location
                                 p.put(playerNum + "::", serializeStatus());
+                                p.saveInBackground();
                             }
-                        };
+                        }.run();
                     } catch (Exception e) {
                         // TODO: handle exception
                     }

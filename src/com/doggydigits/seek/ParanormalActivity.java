@@ -1,6 +1,7 @@
 package com.doggydigits.seek;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -80,7 +81,7 @@ public class ParanormalActivity extends ActionBarActivity {
 			// game name [1] 
 			// team name [2]
 			// hostStatus [3]  if user is host "host" , joining game "join"
-			final Context act = getActivity().getApplicationContext();
+			final Activity act = getActivity();
 			Button button = (Button) rootView.findViewById(R.id.start);
 			   button.setOnClickListener(new OnClickListener()
 			   {
@@ -144,16 +145,16 @@ public class ParanormalActivity extends ActionBarActivity {
 					   }
 
 					   // if (no errors)
-					   Intent intent = new Intent(act, LobbyActivity.class);
+					   Intent intent = new Intent(act, GameRound.class);
 					   intent.putExtra("gameName", info[1]);
 					   intent.putExtra("playerName", info[0]);
 					   intent.putExtra("isHost", info[3]);
-					   intent.putExtra("playerNum", Integer.toString(currentCount));
+					   intent.putExtra("playerNum", currentCount);
 					   intent.putExtra("team", info[2]);
 					   
-					   
+					 
 					   startActivity(intent);
-					   
+					  
 			       } 
 			   });
 			   
