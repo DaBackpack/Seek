@@ -71,7 +71,7 @@ public class GameRound extends Activity {
 		setContentView(R.layout.activity_game_round);
 		
 		//Remove title bar
-	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 
@@ -206,11 +206,18 @@ public class GameRound extends Activity {
 
 		LocationListener locationListener = new LocationListener() {
 		    public void onLocationChanged(Location location) {
-                double accsqrt = Math.sqrt(location.getAccuracy());
-		    	loc.setLatitude((1 - accsqrt) * loc.getLatitude() + accsqrt * location.getLatitude());
-                loc.setLongitude((1 - accsqrt) * loc.getLongitude() + accsqrt * location.getLongitude());
-                loc.setAltitude((1 - accsqrt) * loc.getAltitude() + accsqrt * location.getAltitude());
-                updateText();
+		    	if(loc == null)
+		    	{
+		    		loc = location;
+		    	}
+		    	else
+		    	{
+	                double accsqrt = Math.sqrt(location.getAccuracy());
+			    	loc.setLatitude((1 - accsqrt) * loc.getLatitude() + accsqrt * location.getLatitude());
+	                loc.setLongitude((1 - accsqrt) * loc.getLongitude() + accsqrt * location.getLongitude());
+	                loc.setAltitude((1 - accsqrt) * loc.getAltitude() + accsqrt * location.getAltitude());
+			    }
+	    		updateText();
 		    }
 
 		    public void onStatusChanged(String provider, int status, Bundle extras) {}

@@ -119,6 +119,7 @@ public class ParanormalActivity extends ActionBarActivity {
 					   if((red && blue && random) || (red && blue) || (red && random) || 
 							   (blue && random) || (!red && !blue && !random)){
 						   error[1] = true;
+						   info[2] = "";
 					   }
 					   else if(red){
 						   info[2] = "red";
