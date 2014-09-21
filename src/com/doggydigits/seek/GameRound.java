@@ -239,7 +239,7 @@ public class GameRound extends ActionBarActivity {
 		  };
 		
 		// Register the listener with the Location Manager to receive location updates twice per second
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 250, 0, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 250, 0, locationListener);
 
         // Host loop
         if (playerNum == 0)

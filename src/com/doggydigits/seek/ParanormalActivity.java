@@ -96,7 +96,6 @@ public class ParanormalActivity extends ActionBarActivity {
 					   Parse.initialize(getActivity(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 						ParseObject p = new ParseObject(info[1]);
 						p.saveInBackground();
-						p.getString("key");
 						
 					   if(join && !host) {
 						   info[3] = "join";
@@ -139,7 +138,7 @@ public class ParanormalActivity extends ActionBarActivity {
 					   }
 
 					   // if (no errors)
-					   Intent intent = new Intent(act, GPSTest.class);
+					   Intent intent = new Intent(act, GameRound.class);
 					   intent.putExtra("gameName", info[1]);
 					   intent.putExtra("playerName", info[0]);
 					   intent.putExtra("isHost", info[2]);
