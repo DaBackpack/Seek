@@ -16,5 +16,7 @@
     <string name="blue">Blue</string>
     <string name="spaghetti">Drop Bombs. Mom\'s Spaghetti</string>
     <string name="title_activity_paranormal">Paranormal Activity</string>
+    <string name="team_red">Team Red</string>
+    <string name="team_blue">Team Blue</string>
 
 </resources>

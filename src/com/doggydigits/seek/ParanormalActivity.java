@@ -1,14 +1,12 @@
 package com.doggydigits.seek;
 
 
-import com.parse.Parse;
-import com.parse.ParseObject;
-
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +17,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ToggleButton;
+
+import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class ParanormalActivity extends ActionBarActivity {
 	
@@ -79,8 +80,7 @@ public class ParanormalActivity extends ActionBarActivity {
 			// game name [1] 
 			// team name [2]
 			// hostStatus [3]  if user is host "host" , joining game "join"
-			
-			final Activity act = getActivity();
+			final Context act = getActivity().getApplicationContext();
 			Button button = (Button) rootView.findViewById(R.id.start);
 			   button.setOnClickListener(new OnClickListener()
 			   {
@@ -95,27 +95,13 @@ public class ParanormalActivity extends ActionBarActivity {
 
 					   Parse.initialize(getActivity(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 						ParseObject p = new ParseObject(info[1]);
-						p.saveInBackground();
 						
-					   if(join && !host) {
-						   info[3] = "join";
-						   int currentCount =  p.getInt("playerCount") + 1;
-						   p.put(currentCount+"::name", info[0]);
-						   p.put("playerCount", currentCount);
-					   }
-					   else if(host && !join) {
-						   info[3] = "host";
-						   p.put("0::name", info[0]);
-						   p.put("playerCount", 1);
-					   }
-					   else{
-						   error[0] = true;
-					   }
-				
+
 					   //check team status
 					   boolean red = ((ToggleButton) getView().findViewById(R.id.red)).isChecked();
 					   boolean blue = ((ToggleButton) getView().findViewById(R.id.blue)).isChecked();
 					   boolean random = ((ToggleButton) getView().findViewById(R.id.random)).isChecked();
+					   
 					   if((red && blue && random) || (red && blue) || (red && random) || 
 							   (blue && random) || (!red && !blue && !random)){
 						   error[1] = true;
@@ -137,15 +123,36 @@ public class ParanormalActivity extends ActionBarActivity {
 						   }
 							
 					   }
+					   
+					   
+					   int currentCount = 0;
+					   if(join && !host) {
+						   info[3] = "join";
+						   currentCount = (int) p.get("playerCount") + 1;
+						   p.put(currentCount+"::name", info[0]);
+						   p.put(currentCount+"::team", info[2]);
+						   p.put("playerCount", currentCount);
+					   }
+					   else if(host && !join) {
+						   info[3] = "host";
+						   p.put("0::name", info[0]);
+						   p.put("0::team", info[2]);
+						   p.put("playerCount", 1);
+					   }
+					   else{
+						   error[0] = true;
+					   }
 
 					   // if (no errors)
 					   Intent intent = new Intent(act, GameRound.class);
 					   intent.putExtra("gameName", info[1]);
 					   intent.putExtra("playerName", info[0]);
 					   intent.putExtra("isHost", info[3]);
+					   intent.putExtra("playerNum", Integer.toString(currentCount));
+					   intent.putExtra("isHost", info[2]);
 					   intent.putExtra("team", info[2]);
 					   
-					  
+					   
 					   startActivity(intent);
 					   
 			       } 
