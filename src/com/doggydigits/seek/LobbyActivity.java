@@ -60,7 +60,8 @@ public class LobbyActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_lobby);
 
 		//Remove title bar
-	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    
 	    Parse.initialize(getApplicationContext(), "tpMJgJuw0gFHtXqVO4YaRfvXVXsJmfiWJTNI8Ib6", "9nZ8rLxVbmm6KC94rbzeupQRzTemahxMTuenNxW8");
 	    ParseObject p = new ParseObject("gameName");
 		p.saveInBackground();
