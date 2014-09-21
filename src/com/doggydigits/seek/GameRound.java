@@ -60,20 +60,12 @@ public class GameRound extends ActionBarActivity {
 	//public HashSet<Integer> attackingMe;
 	
     public void updateText(){
-    	new Thread(new Runnable(){
-    		public void run(){
-    			TextView view = (TextView) findViewById(R.id.textView1);
-    			while (true){
-    				view.setText("" + loc.getLatitude() + "    " + Time.SECOND);
-    				try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    			}
-    		}
-    	}).start();
+    		TextView latview = (TextView) findViewById(R.id.lat_view);
+    		latview.setText("" + loc.getLatitude());
+    		TextView longview = (TextView) findViewById(R.id.long_view);
+    		longview.setText("" + loc.getLongitude());
+    		
+    			
     }
     
 	@Override
@@ -169,7 +161,7 @@ public class GameRound extends ActionBarActivity {
 	public void beginCountdown()
     {
 		ParseObject p = new ParseObject(gameName);
-		int timer = 30;
+		int timer = 0;
 		while (timer > 0){
 			p.put("timer", timer);
 			p.saveInBackground();
