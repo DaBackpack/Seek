@@ -6,41 +6,55 @@
     tools:context="com.doggydigits.seek.LobbyActivity"
     tools:ignore="MergeRootFrame" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <ImageView
+        android:id="@+id/bg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/bg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/teamRed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:src="@drawable/red"
+        android:text="@string/team_red"
+        android:layout_toLeftOf="@+id/start"
+        android:layout_toStartOf="@+id/start"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="38dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/team_red" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:text="@string/start"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="44dp"
-        android:text="@string/start" />
+        android:layout_marginTop="70dp" />
 
-    <TextView
-        android:id="@+id/textView2"
+    <ImageView
+        android:id="@+id/teamBlu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
+        android:src="@drawable/blu"
+        android:text="@string/team_blue"
         android:layout_toRightOf="@+id/start"
-        android:text="@string/team_blue" />
+        android:layout_toEndOf="@+id/start" />
 
     <ListView
         android:id="@+id/player_list_view1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/start"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1" >
+        android:layout_below="@+id/teamRed"
+        android:layout_toLeftOf="@+id/start"
+        android:layout_toStartOf="@+id/start"
+        android:layout_alignRight="@+id/teamRed"
+        android:layout_alignEnd="@+id/teamRed">
 
     </ListView>
 
@@ -48,9 +62,9 @@
         android:id="@+id/player_list_view2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/player_list_view1"
-        android:layout_marginTop="150dp"
-        android:layout_toRightOf="@+id/player_list_view1" >
+        android:layout_toEndOf="@+id/start"
+        android:layout_toRightOf="@+id/start"
+        android:layout_below="@+id/teamBlu">
     </ListView>
-    
+
 </RelativeLayout>

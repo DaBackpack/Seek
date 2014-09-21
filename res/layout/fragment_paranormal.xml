@@ -8,6 +8,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.doggydigits.seek.ParanormalActivity$PlaceholderFragment" >
 
+    <ImageView
+        android:id="@+id/bg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/bg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+    </ImageView>
+
     <EditText
         android:id="@+id/playername"
         android:layout_width="wrap_content"
@@ -16,7 +26,7 @@
         android:layout_below="@+id/gamename"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="@string/player" />
+        android:hint="Player_Name" />
 
     <EditText
         android:id="@+id/gamename"
@@ -35,57 +45,76 @@
         android:id="@+id/random"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/start"
-        android:layout_below="@+id/blue"
         android:text="@string/random"
-        android:textOn="Random!" />
+        android:textOn="Random!"
+        android:textOff="Random Team"
+        android:layout_below="@+id/blue"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
 
     <ToggleButton
         android:id="@+id/red"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/random"
-        android:layout_alignRight="@+id/host"
-        android:layout_marginRight="14dp"
-        android:text="@string/red"
-        android:textOn="Red!" />
+        android:text="Red"
+        android:textOn="Red!"
+        android:layout_alignTop="@+id/blue"
+        android:layout_alignLeft="@+id/playername"
+        android:layout_alignStart="@+id/playername"
+        android:textColor="#ffff3c37"
+        android:layout_toLeftOf="@+id/start"
+        android:layout_toStartOf="@+id/start" />
 
     <Button
         android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/start"
         android:layout_below="@+id/random"
         android:layout_centerHorizontal="true"
-        android:text="@string/start" />
+        android:layout_marginTop="50dp" />
 
     <ToggleButton
         android:id="@+id/host"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/random"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="16dp"
         android:text="@string/host_a_game"
-        android:textOn="Host!" />
+        android:textOn="Hosting!"
+        android:textOff="Host a Game"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/gamename"
+        android:layout_alignEnd="@+id/gamename" />
 
     <ToggleButton
         android:id="@+id/join"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/host"
-        android:layout_toRightOf="@+id/red"
         android:text="@string/join_a_game"
-        android:textOn="Join!" />
+        android:textOn="Joining!"
+        android:textOff="Join a Game"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/gamename"
+        android:layout_alignStart="@+id/gamename" />
 
     <ToggleButton
         android:id="@+id/blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/playername"
-        android:layout_marginTop="48dp"
-        android:layout_toRightOf="@+id/red"
         android:text="@string/blue"
-        android:textOn="Blue!" />
+        android:textOn="Blue!"
+        android:textColor="#ff171cff"
+        android:layout_toEndOf="@+id/start"
+        android:layout_below="@+id/textView"
+        android:layout_toRightOf="@+id/start" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Select a Team"
+        android:id="@+id/textView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
